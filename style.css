@@ -1,0 +1,13 @@
+.fonterosa{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: pink;
+}
+.fonterosa:hover{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: blue;
+}
+#fondo1{
+    background-color: blue;
+}
