@@ -1,41 +1,205 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador Tech - CEP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Fundo com Matrix */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Impede scroll por causa do canvas */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-<title>senai-joao</title>
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Fica atrás de tudo */
+            background: #000;
+        }
 
+        .form-container { 
+            width: 90%;
+            max-width: 600px; 
+            background: rgba(255, 255, 255, 0.95); /* Leve transparência */
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.3); /* Brilho neon suave */
+            backdrop-filter: blur(5px);
+            z-index: 1;
+        }
+
+        .loading-spinner { display: none; }
+
+        /* Transição suave */
+        #resultado-endereco { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: scale(0.95); } 
+            to { opacity: 1; transform: scale(1); } 
+        }
+
+        .btn-tech {
+            background-color: #000;
+            color: #00ff41;
+            border: 1px solid #00ff41;
+            transition: 0.3s;
+        }
+
+        .btn-tech:hover {
+            background-color: #00ff41;
+            color: #000;
+            box-shadow: 0 0 15px #00ff41;
+        }
+    </style>
 </head>
+<body>
 
-<link rel="stylesheet" href="style.css">
-<body id="fondo">
+<canvas id="matrix-canvas"></canvas>
 
-<div>
-<p>O que é hacking ético e por que está cada vez mais em alta demanda?</p>
-O hacking ético, também conhecido como teste de penetração ou hacking de chapéu branco,
-envolve as mesmas técnicas, ferramentas e processos que os hackers usam, mas com uma grande diferença:
-os hackers éticos têm permissão para invadir as redes que testam.
-</div><br>
+<div class="form-container">
+    <h2 class="mb-4 text-center text-dark fw-bold">BUSCADOR DE CEP</h2>
+    
+    <div id="busca-setion">
+        <div class="row g-3 align-items-end">
+            <div class="col-12">
+                <label for="cep" class="form-label fw-bold">Insira o Endereço Postal (CEP):</label>
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-lg border-dark" id="cep" placeholder="Ex: 01001000" maxlength="8">
+                    <button class="btn btn-dark px-4" type="button" onclick="buscarEndereco()">
+                        <span class="spinner-border spinner-border-sm loading-spinner" id="spinner"></span>
+                        <span id="btn-text">BUSCAR</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="fonterosa">
-<p>O que é hacking ético e por que está cada vez mais em alta demanda?</p>
-O hacking ético, também conhecido como teste de penetração ou hacking de chapéu branco,
-envolve as mesmas técnicas, ferramentas e processos que os hackers usam, mas com uma grande diferença:
-os hackers éticos têm permissão para invadir as redes que testam.
-</div><br>
+    <div id="resultado-endereco" class="d-none mt-4">
+        <hr>
+        <form class="row g-3">
+            <div class="col-12">
+                <label class="form-label small fw-bold text-muted">LOGRADOURO</label>
+                <input type="text" class="form-control bg-light" id="logradouro" readonly>
+            </div>
 
-<div class="fonteazul">
-<p>O que é hacking ético e por que está cada vez mais em alta demanda?</p>
-O hacking ético, também conhecido como teste de penetração ou hacking de chapéu branco,
-envolve as mesmas técnicas, ferramentas e processos que os hackers usam, mas com uma grande diferença:
-os hackers éticos têm permissão para invadir as redes que testam.
-</div><br>
+            <div class="col-md-6">
+                <label class="form-label small fw-bold text-muted">BAIRRO</label>
+                <input type="text" class="form-control bg-light" id="bairro" readonly>
+            </div>
 
-<div>
-<p>O que é hacking ético e por que está cada vez mais em alta demanda?</p>
-O hacking ético, também conhecido como teste de penetração ou hacking de chapéu branco,
-envolve as mesmas técnicas, ferramentas e processos que os hackers usam, mas com uma grande diferença:
-os hackers éticos têm permissão para invadir as redes que testam.
-</div><br>
+            <div class="col-md-4">
+                <label class="form-label small fw-bold text-muted">CIDADE</label>
+                <input type="text" class="form-control bg-light" id="cidade" readonly>
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label small fw-bold text-muted">UF</label>
+                <input type="text" class="form-control bg-light" id="uf" readonly>
+            </div>
+
+            <div class="col-12 mt-4">
+                <button type="button" class="btn btn-tech w-100 btn-lg fw-bold" onclick="novaBusca()">
+                    BUSCAR OUTRO CEP
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // --- LÓGICA DO FUNDO ANIMADO (MATRIX) ---
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#@&%";
+    const charArr = chars.split("");
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+
+    for (let x = 0; x < columns; x++) drops[x] = 1;
+
+    function drawMatrix() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#00ff41"; // Cor clássica Matrix
+        ctx.font = fontSize + "px monospace";
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = charArr[Math.floor(Math.random() * charArr.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        }
+    }
+    setInterval(drawMatrix, 35);
+
+    // Redimensionar se a tela mudar
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+
+    // --- LÓGICA DE BUSCA ---
+    async function buscarEndereco() {
+        const cepInput = document.getElementById("cep");
+        const cep = cepInput.value.replace(/\D/g, '');
+        const spinner = document.getElementById("spinner");
+        const btnText = document.getElementById("btn-text");
+        const divResultado = document.getElementById("resultado-endereco");
+        
+        if (cep.length !== 8) {
+            alert("Erro: O sistema exige 8 dígitos.");
+            return;
+        }
+
+        spinner.style.display = "inline-block";
+        btnText.innerText = "SCANNING...";
+
+        try {
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await response.json();
+
+            if (data.erro) {
+                alert("Código não encontrado na base de dados.");
+                cepInput.focus();
+            } else {
+                document.getElementById("logradouro").value = data.logradouro;
+                document.getElementById("bairro").value = data.bairro;
+                document.getElementById("cidade").value = data.localidade;
+                document.getElementById("uf").value = data.uf;
+
+                divResultado.classList.remove("d-none");
+                // Esconde a seção de busca inicial para focar no resultado
+                document.getElementById("busca-setion").classList.add("d-none");
+            }
+        } catch (error) {
+            alert("Erro na conexão com o servidor.");
+        } finally {
+            spinner.style.display = "none";
+            btnText.innerText = "BUSCAR";
+        }
+    }
+
+    function novaBusca() {
+        // Limpa o campo e mostra a busca novamente
+        document.getElementById("cep").value = "";
+        document.getElementById("busca-setion").classList.remove("d-none");
+        document.getElementById("resultado-endereco").classList.add("d-none");
+        document.getElementById("cep").focus();
+    }
+</script>
 
 </body>
 </html>
