@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    function login(){
+        let usuario = document.getElementById("usuario").value;
+        let senha = document.getElementById("senha").value;
+        
+        if(usuario == "joao" && senha == "1234"){
+            alert("login ralizado com sucesso!");
+            mostrarHome();
+            esconderLogin();
+        }
+    }
+    function mostrarHome(){
+        let telaHome = document.getElementById("home").style.display = "block";
+    }
+    function esconderLogin(){
+        let telaLogin = document.getElementById("login").style.display = "none";
+    }
+</script>
+<style>
+    .estilo{
+        font-family: Arial, sans-serif;
+    }
+</style>
+<body>
+<section class="estilo">
+    <h1 style="font-family: Arial, sans-serif;" id="login">SISTEMA SENAI JOAO</h1>
+    <input class="cor" type="text" placeholder="Digite o usuario" id="usuario"><br>
+    <input type="text" placeholder="Digite a senha" id="senha"><br>
+    <input type="button" value="Entrar" onclick="login()"><br>
+</section>
+<section class="" id="home" style="display: none;">
+    <div class=""><h1>BEM-VINDO AO SENAI PROFESSOR!</h1></div>
+</section>
+</body>
+</html>
