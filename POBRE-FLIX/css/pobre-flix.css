@@ -51,7 +51,7 @@
     background-color: black;
     color: red;
     width: 400px;
-    height: 600px;
+    height: 650px;
     border-radius: 10px;
     text-align: center;
     box-shadow: 4px 4px 12px #aaaa;
@@ -60,7 +60,8 @@
 .card>h1 {
     color: white;
     font-size: 40px;
-    padding-top: 15px;
+    padding-top: 5px;
+    letter-spacing: 5px;
 }
 .card>p {
     font-family: Arial, Helvetica, sans-serif;
@@ -86,10 +87,20 @@
 }
 .bntLogin{
     font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
 }
 #bntsair{
     position: fixed;
     top: 0;
     right: 0;
     margin: 50px;
+}
+.bi{
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
