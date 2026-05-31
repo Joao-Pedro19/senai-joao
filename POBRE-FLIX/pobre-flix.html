@@ -4,57 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pobre Flix</title>
-</head>
-<link rel="stylesheet" href="pobre-flix.css">
-<script>
-    function login(){
-        let usuario = document.getElementById("usuario").value;
-        let senha = document.getElementById("senha").value;
+    <link rel="stylesheet" href="css/pobre-flix.css">
+    <script src="js/pobre-flix.js"></script>
 
-        if(usuario == "joao" && senha == "1234"){
-            alert("Login Realizado com sucesso!");
-            mostrarHome()
-            esconderLogin()
-        }
-    }
-    function logout(){
-        let telaHome = document.getElementById("home").style.display = "none";
-        let telaLogin = document.getElementById("login").style.display = "block";
-    }
-    function mostrarHome(){
-        let telaHome = document.getElementById("home").style.display = "block";
-    }
-    function esconderLogin(){
-        let telaLogin = document.getElementById("login").style.display = "none";
-    }
-</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+
 <body>
-    <section id="login" class="login">
+    <section id="login" >
         <h1>Pobre Flix</h1>
-        <input type="text" id="usuario" placeholder="usuario"><br>
-        <input type="text" id="senha" placeholder="senha"><br>
-        <input type="button" value="ENTRAR" onclick="login()"><br>
+        <input type="text" class="bntLogin" id="usuario" placeholder="usuario"><br>
+        <input type="text" class="bntLogin" id="senha" placeholder="senha"><br>
+        <input type="button" class="button" value="ENTRAR" onclick="login()"><br>
     </section>
     <section id="home"  style="display: none;">
-        <div class="home">
-             <div class="telaHome">
-            <h1>Escolha uma opção de Plano</h1><br>
-            <input type="button" value="SAIR" onclick="logout()"><br>
+        <div class="main">
+            <div class="home">
+                <h1>Escolha uma opção de Plano</h1>
+                <input type="button" class="button" value="SAIR" onclick="logout()">
+            </div>
+            <div class="card card2">
+                <img src="imagens/basic.png" alt="imagem1">
+                <h1>Basic</h1>
+                <p>Inclui anúncios, com qualidade de imagem padrão.</p>
+                <h1>R$5,00</h1>
+                <input type="button" class="button" value="ASSINAR">
+            </div>
+            <div class="card card3">
+                <img src="imagens/padrão.png" alt="imagem2">
+                <h1>Padrão</h1>
+                <p>Sem anúncios, com qualidade de imagem padrão e até 2 telas simultâneas.</p>
+                <h1>R$20,00</h1>
+                <input type="button" class="button" value="ASSINAR">
+            </div>
+            <div class="card card4">
+                <img src="imagens/premium.png" alt="imagem3">
+                <h1>Premium</h1>
+                <p>Sem anúncios, qualidade 4K Ultra HD, até 4 telas simultâneas e melhor qualidade de som.</p>
+                <h1>R$30,00</h1>
+                <input type="button" class="button" value="ASSINAR">
+            </div>
         </div>
-        <div class="telaHome1">
-            <p>Basic <br> Inclui anúncios, com qualidade de imagem padrão. <br> R$5,00</p>
-            <input type="button" class="button" value="ASSINAR">
-        </div>
-        <div class="telaHome2">
-            <p id="telaHome1">Padrão <br> Sem anúncios, com qualidade de imagem padrão e até 2 telas simultâneas. <br> R$20,00</p>
-            <input type="button" class="button" value="ASSINAR">
-        </div>
-        <div class="telaHome3">
-            <p id="telaHome2">Premium <br> Sem anúncios, qualidade 4K Ultra HD, até 4 telas simultâneas e melhor qualidade de som. <br> R$30,00</p>
-            <input type="button" class="button" value="ASSINAR">
-        </div>
-        </div>
-       
     </section>
 </body>
 </html>
