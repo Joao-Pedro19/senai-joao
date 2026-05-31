@@ -13,8 +13,8 @@
 </head>
 
 <body>
-    <section id="login" >
-        <h1>Pobre Flix</h1>
+    <section id="login" class="login" >
+        <h1 id="titulo">Pobre Flix</h1>
         <input type="text" class="bntLogin" id="usuario" placeholder="usuario"><br>
         <input type="text" class="bntLogin" id="senha" placeholder="senha"><br>
         <input type="button" class="button" value="ENTRAR" onclick="login()"><br>
@@ -23,12 +23,12 @@
         <div class="main">
             <div class="home">
                 <h1>Escolha uma opção de Plano</h1>
-                <input type="button" class="button" value="SAIR" onclick="logout()">
+                <input type="button" id="bntsair" class="button" value="SAIR" onclick="logout()">
             </div>
             <div class="card card2">
                 <img src="imagens/basic.png" alt="imagem1">
                 <h1>Basic</h1>
-                <p>Inclui anúncios, com qualidade de imagem padrão.</p>
+                <p>Inclui anúncios, com qualidade de imagem padrão e apenas 1 tela.</p>
                 <h1>R$5,00</h1>
                 <input type="button" class="button" value="ASSINAR">
             </div>
