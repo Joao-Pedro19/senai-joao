@@ -54,9 +54,15 @@
 body {
   min-height: 100vh;
   background: var(--cor-fundo);
-  background-image:
+  background-image: url(imagens/fundo.jpg); /* Caminho do arquivo */
+    background-repeat: no-repeat;                     /* Impede que a imagem se repita */
+    background-size: cover;                           /* Redimensiona para cobrir todo o espaço */
+    background-position: center;                      /* Centraliza a imagem no elemento */
+    background-attachment: fixed;
+
     radial-gradient(ellipse 80% 60% at 20% 10%, #1a0a3e55 0%, transparent 60%),
     radial-gradient(ellipse 60% 50% at 80% 90%, #001a3e44 0%, transparent 60%);
+    
   font-family: var(--fonte-corpo);
   color: var(--cor-texto);
   display: flex;
