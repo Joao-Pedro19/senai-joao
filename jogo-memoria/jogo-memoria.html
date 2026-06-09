@@ -390,6 +390,17 @@ button:active { transform: translateY(0); opacity: 0.85; }
     --gap-grade: 8px;
     --emoji-size: 1.8rem;
   }
+
+.img-carta{
+
+width: 12px;
+
+height: 12px;
+
+object-fit: contain;
+
+}
+  
 }
 </style>
 </head>
@@ -443,10 +454,10 @@ button:active { transform: translateY(0); opacity: 0.85; }
 // ============================================================
 //  🎮 CONFIGURAÇÕES — altere aqui para personalizar
 // ============================================================
-const EMOJIS = ['🐍', '🦦', '🦍', '🦔', '🐐', '🧙🏿‍♂️', '🐉', '🦘'];
+const IMAGENS = ['imagens/bubasauro.png', 'imagens/charizard.png', 'imagens/charmilion.png', 'imagens/ivy.png', 'imagens/picachu2.png', 'imagens/piplope.png', 'imagens/snorlex.png', 'imagens/totodaio.png' ];
 // Dica: troque por outros emojis ou use letras, números, etc.
 
-const TOTAL_PARES = EMOJIS.length; // 8 pares = 16 cartas
+const TOTAL_PARES = IMAGENS.length; // 8 pares = 16 cartas
 
 // ============================================================
 //  ESTADO DO JOGO
@@ -481,7 +492,7 @@ function iniciarJogo() {
   timerID = setInterval(atualizarTempo, 1000);
 
   // Criar e embaralhar cartas
-  const pares    = [...EMOJIS, ...EMOJIS];
+  const pares    = [...IMAGENS, ...IMAGENS];
   const embaralhadas = embaralhar(pares);
 
   // Renderizar grade
@@ -502,7 +513,7 @@ function iniciarJogo() {
           <span class="icone-verso">✦</span>
         </div>
         <div class="carta-frente" aria-hidden="true">
-          ${emoji}
+          <img src="${emoji}" class="img-carta">
         </div>
       </div>`;
 
